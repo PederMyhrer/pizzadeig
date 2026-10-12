@@ -10,6 +10,7 @@ Napolitansk pizzadeig med poolish: en kalkulator som skalerer oppskriften og en 
 | `kalkulator.html` | Velg antall pizzaer, ballvekt og hydrering. Tar også imot `?n=6` i lenken |
 | `fremgangsmate.html` | Fra poolish til ferdige deigballer |
 | `style.css` | Felles stil, fonter og farger |
+| `pizza.js` | Tegner margheritaen på canvas |
 
 ## Utgangspunktet
 
@@ -32,4 +33,4 @@ Ingen informasjonskapsler, ingen sporing og ingen eksterne ressurser. Fontene li
 
 ## Lisens
 
-Koden er lisensiert under [MIT](LICENSE). Skriftene i `fonts/` (Young Serif, Figtree og JetBrains Mono) er lisensiert under SIL Open Font License 1.1, med lisenstekst i samme mappe.
+Koden er lisensiert under [MIT](LICENSE). Skriftene i `fonts/` (Abril Fatface, Caveat, Courier Prime og Figtree) er lisensiert under SIL Open Font License 1.1, med lisenstekst i samme mappe.
