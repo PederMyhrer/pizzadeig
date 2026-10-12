@@ -1,8 +1,15 @@
-# Pizzadeig-kalkulator
+# Pizzadeig
 
-Kalkulator for napolitansk pizzadeig med poolish. Velg antall pizzaer, vekt per deigball og hydrering, så regner siden ut mengdene til poolish og hoveddeig.
+Napolitansk pizzadeig med poolish: en kalkulator som skalerer oppskriften og en side med fremgangsmåten steg for steg.
 
 **Bruk den her:** https://pedermyhrer.github.io/pizzadeig/
+
+| Side | Innhold |
+|---|---|
+| `index.html` | Forside med tidsplan og grunnoppskrift |
+| `kalkulator.html` | Velg antall pizzaer, ballvekt og hydrering. Tar også imot `?n=6` i lenken |
+| `fremgangsmate.html` | Fra poolish til ferdige deigballer |
+| `style.css` | Felles stil, fonter og farger |
 
 ## Utgangspunktet
 

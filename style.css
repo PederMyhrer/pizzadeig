@@ -1,0 +1,48 @@
+/* Felles stil for alle sider: lokale fonter, fargetokens, meny og bunntekst */
+@font-face { font-family: "Young Serif"; src: url("fonts/young-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+
+:root {
+  --bg: #f6f7f4; --surface: #ffffff; --ink: #1f2420; --muted: #66706a;
+  --line: #dde2dc; --basil: #2f6b45; --basil-soft: #e3efe6; --tomato: #c23b2a; --tomato-soft: #f7e4e0;
+  --display: "Young Serif", Georgia, serif;
+  --body: "Figtree", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141815; --surface: #1c211d; --ink: #e9ede8; --muted: #9aa49d;
+    --line: #2e3530; --basil: #7cc495; --basil-soft: #1f3327; --tomato: #ef7462; --tomato-soft: #3a211d;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 880px; margin: 0 auto; padding-inline: 16px; padding-block: 0 48px; display: grid; gap: 28px; }
+h1, h2, h3 { text-wrap: balance; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 6.5vw, 46px); line-height: 1.1; margin: 0; }
+.lede { color: var(--muted); margin: 8px 0 0; max-width: 60ch; font-size: 17px; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+a { color: var(--basil); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--basil); outline-offset: 2px; }
+
+/* Meny */
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding-block: 18px; border-bottom: 1px solid var(--line); }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 20px; color: var(--ink); text-decoration: none; }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.site-nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.site-nav ul a { display: block; padding: 6px 12px; border-radius: 999px; color: var(--muted); text-decoration: none; font-weight: 500; font-size: 15px; }
+.site-nav ul a:hover { color: var(--ink); background: var(--surface); }
+.site-nav ul a[aria-current="page"] { color: var(--basil); background: var(--basil-soft); }
+
+/* Bunntekst */
+footer.about { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 13px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px 32px; }
+footer.about h2 { font: 600 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); margin: 0 0 4px; }
+footer.about p { margin: 0; max-width: 70ch; }
+footer.about p + p { margin-top: 6px; }

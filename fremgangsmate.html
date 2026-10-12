@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fremgangsmåte · Pizzadeig</title>
+<meta name="description" content="Steg for steg fra poolish til ferdig napolitansk pizza.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23e8c58a'/%3E%3Ccircle cx='16' cy='16' r='10.5' fill='%23c23b2a'/%3E%3Ccircle cx='12' cy='13' r='2.2' fill='%23f6f1e4'/%3E%3Ccircle cx='20' cy='18' r='2.2' fill='%23f6f1e4'/%3E%3Ccircle cx='14' cy='21' r='1.6' fill='%232f6b45'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<style>
+.prep { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+.prep div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.prep b { display: block; font-weight: 600; }
+.prep span { color: var(--muted); font-size: 15px; }
+.phase { display: grid; gap: 14px; }
+.phase-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+.phase-head h2 { font-family: var(--display); font-weight: 400; font-size: 28px; margin: 0; }
+.phase-head .when { font: 500 13px var(--mono); color: var(--muted); }
+.phase.pool .phase-head { border-color: var(--basil); }
+.phase.main .phase-head { border-color: var(--tomato); }
+ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 4px; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+ol.steps li:last-child { border-bottom: 0; }
+ol.steps li::before { content: counter(s); font: 500 15px var(--mono); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--basil-soft); color: var(--basil); }
+.phase.main ol.steps li::before { background: var(--tomato-soft); color: var(--tomato); }
+ol.steps h3 { margin: 2px 0 2px; font-size: 17px; font-weight: 600; }
+ol.steps p { margin: 0; max-width: 64ch; }
+.time { display: inline-block; margin-top: 6px; font: 500 12px var(--mono); color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; }
+.tip { background: var(--basil-soft); border-radius: 12px; padding: 14px 18px; }
+.tip p { margin: 0; max-width: 70ch; }
+.cta { display: inline-block; background: var(--basil); color: var(--bg); text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 999px; }
+.cta:hover { filter: brightness(1.08); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="site-nav" aria-label="Hovedmeny"><a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#e8c58a"/><circle cx="16" cy="16" r="10.5" fill="#c23b2a"/><circle cx="12" cy="13" r="2.2" fill="#f6f1e4"/><circle cx="20" cy="18" r="2.2" fill="#f6f1e4"/><circle cx="14" cy="21" r="1.6" fill="#2f6b45"/></svg>Pizzadeig</a><ul><li><a href="index.html">Forside</a></li><li><a href="kalkulator.html">Kalkulator</a></li><li><a href="fremgangsmate.html" aria-current="page">Fremgangsmåte</a></li></ul></nav>
+  <header>
+    <h1>Fremgangsmåte</h1>
+    <p class="lede">Fra poolish til ferdig pizza. Mengdene finner du i <a href="kalkulator.html">kalkulatoren</a>, så denne siden handler bare om hva du gjør og når.</p>
+  </header>
+
+  <section class="prep" aria-label="Før du starter">
+    <div><b>Boks med lokk</b><span>Poolishen lages i en boks som passer i kjøleskapet.</span></div>
+    <div><b>Vekt</b><span>Vei alt. En liten digitalvekt (smykkevekt) er fin til gjæren.</span></div>
+    <div><b>Planlegg</b><span>Start dagen før. Fra poolishen er ferdig hevet tar det cirka 2 timer til pizzaene er klare for fyll.</span></div>
+  </section>
+
+  <section class="phase pool">
+    <div class="phase-head"><h2>Poolish</h2><span class="when">dagen før · 13 til 25 timer</span></div>
+    <ol class="steps">
+      <li><div><h3>Bland</h3><p>Ha mel, gjær og honning i boksen og hell over vannet. Rør med en skje til alt er blandet. Det tar bare et par minutter, poenget er å få melet rørt inn.</p></div></li>
+      <li><div><h3>Lokk på, men ikke helt</h3><p>Legg på lokket og la det ene hjørnet stå åpent, så poolishen får litt luft.</p></div></li>
+      <li><div><h3>Romtemperatur</h3><p>La boksen stå på benken.</p><span class="time">1 time</span></div></li>
+      <li><div><h3>Kjøleskap</h3><p>Sett boksen i kjøleskapet.</p><span class="time">12 til 24 timer</span></div></li>
+    </ol>
+  </section>
+
+  <section class="phase main">
+    <div class="phase-head"><h2>Hoveddeig</h2><span class="when">bakedagen · cirka 2 timer</span></div>
+    <ol class="steps">
+      <li><div><h3>Mel, poolish og salt</h3><p>Hell melet til hoveddeigen på benken. Hell hele poolishen og saltet over melet.</p></div></li>
+      <li><div><h3>Elt</h3><p>Begynn å elte inn melet. Det tar litt tid, men ha troen: alt melet blir eltet inn til slutt, og etter hvert blir deigen litt klissete.</p></div></li>
+      <li><div><h3>Brett til den er glatt</h3><p>Når deigen er klissete, begynner du å brette. Løft den med begge hender, med fingrene som klyper, og brett den over seg selv. Fortsett til deigen er glatt og smidig.</p></div></li>
+      <li><div><h3>Kort hvile</h3><p>Hell litt olje over ballen og sett en boks over den.</p><span class="time">10 min</span></div></li>
+      <li><div><h3>Brett og hev</h3><p>Brett deigen 2 til 4 ganger og la den heve. Denne hevingen kan droppes hvis du har dårlig tid.</p><span class="time">1 time · valgfri</span></div></li>
+      <li><div><h3>Del i baller</h3><p>Del deigen i like mange baller som du skal ha pizzaer. Kalkulatoren viser vekten per ball. Brett hver ball 2 til 4 ganger og legg dem i en elteboks eller et annet sted med lokk.</p></div></li>
+      <li><div><h3>Siste heving</h3><p>La ballene heve under lokk.</p><span class="time">cirka 1 time</span></div></li>
+      <li><div><h3>Bak ut</h3><p>Nå kan deigene bakes ut. Strø gjerne semulegryn (semolina) på benken, så er deigen lettere å bake ut og flytte.</p></div></li>
+    </ol>
+  </section>
+
+  <div class="tip"><p><strong>Flere pizzaer?</strong> Fremgangsmåten er den samme uansett mengde. Regn ut nye mengder i kalkulatoren, og husk at en stor poolish kan heve litt raskere enn en liten.</p></div>
+  <p><a class="cta" href="kalkulator.html">Regn ut mengder</a></p>
+
+  <footer class="about">
+    <div>
+      <h2>Personvern</h2>
+      <p>Siden bruker ingen informasjonskapsler (cookies), ingen sporing og ingen analyseverktøy, og den henter ingenting fra tredjeparter. Alt regnes ut i nettleseren din, og det du skriver inn blir ikke lagret eller sendt noe sted.</p>
+      <p>Siden ligger på GitHub Pages. GitHub registrerer IP-adressen til besøkende i sine serverlogger av sikkerhetshensyn, slik det står i <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHubs personvernerklæring</a>.</p>
+    </div>
+    <div>
+      <h2>Ansvar og lisens</h2>
+      <p>Laget for privat bruk og delt slik den er. Tallene er veiledende, og du bruker siden på eget ansvar.</p>
+      <p>Koden er åpen under <a href="https://github.com/PederMyhrer/pizzadeig/blob/main/LICENSE" rel="noopener">MIT-lisensen</a>. Skriftene Young Serif, Figtree og JetBrains Mono er lisensiert under SIL Open Font License 1.1 og ligger med lisenstekst i <a href="https://github.com/PederMyhrer/pizzadeig/tree/main/fonts" rel="noopener">fonts-mappen</a>.</p>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

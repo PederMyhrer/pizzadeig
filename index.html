@@ -3,157 +3,95 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pizzadeig-kalkulator</title>
-<meta name="description" content="Skaler napolitansk pizzadeig med poolish etter antall pizzaer, vekt per deigball og hydrering.">
+<title>Pizzadeig</title>
+<meta name="description" content="Napolitansk pizzadeig med poolish: kalkulator og fremgangsmåte.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23e8c58a'/%3E%3Ccircle cx='16' cy='16' r='10.5' fill='%23c23b2a'/%3E%3Ccircle cx='12' cy='13' r='2.2' fill='%23f6f1e4'/%3E%3Ccircle cx='20' cy='18' r='2.2' fill='%23f6f1e4'/%3E%3Ccircle cx='14' cy='21' r='1.6' fill='%232f6b45'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
 <style>
-@font-face { font-family: "Young Serif"; src: url("fonts/young-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-@font-face { font-family: "Figtree"; src: url("fonts/figtree-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
-@font-face { font-family: "JetBrains Mono"; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
-*, *::before, *::after { box-sizing: border-box; }
-body { margin: 0; }
-
-/* Layout: kontrollpanel øverst, to "deigbrett" side om side, nøkkeltall under */
-:root {
-  --bg: #f6f7f4; --surface: #ffffff; --ink: #1f2420; --muted: #66706a;
-  --line: #dde2dc; --basil: #2f6b45; --basil-soft: #e3efe6; --tomato: #c23b2a;
-  --display: "Young Serif", Georgia, serif;
-  --body: "Figtree", system-ui, sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, monospace;
-}
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #141815; --surface: #1c211d; --ink: #e9ede8; --muted: #9aa49d;
-  --line: #2e3530; --basil: #7cc495; --basil-soft: #1f3327; --tomato: #ef7462; color-scheme: dark } }
-:root[data-theme="dark"] {
-  --bg: #141815; --surface: #1c211d; --ink: #e9ede8; --muted: #9aa49d;
-  --line: #2e3530; --basil: #7cc495; --basil-soft: #1f3327; --tomato: #ef7462; color-scheme: dark }
-
-body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
-.wrap { max-width: 880px; margin: 0 auto; padding-inline: 16px; padding-block: 32px 48px; display: grid; gap: 24px; }
-h1 { font-family: var(--display); font-weight: 400; font-size: clamp(28px, 6vw, 40px); margin: 0; text-wrap: balance; }
-.lede { color: var(--muted); margin: 6px 0 0; max-width: 62ch; }
-.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-
-.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
-.ctl label { display: block; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.stepper { display: flex; align-items: center; gap: 8px; }
-.stepper button { width: 40px; height: 40px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-size: 20px; cursor: pointer; }
-.stepper button:hover { border-color: var(--basil); }
-.stepper input, .field input { width: 100%; min-width: 0; height: 40px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: 500 18px var(--mono); text-align: center; }
-.field { display: flex; align-items: center; gap: 8px; }
-.field span { color: var(--muted); }
-input[type=range] { width: 100%; accent-color: var(--basil); }
-.hyd-row { display: flex; justify-content: space-between; align-items: baseline; }
-.hyd-val { font: 500 22px var(--mono); color: var(--basil); }
-.presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.presets button { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px; padding: 3px 10px; font: 500 12px var(--body); cursor: pointer; }
-.presets button.on { background: var(--basil-soft); color: var(--basil); border-color: var(--basil); }
-button:focus-visible, input:focus-visible { outline: 2px solid var(--basil); outline-offset: 2px; }
-
-.boards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-.board { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; min-width: 0; }
-.board h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin: 0; }
-.board .when { color: var(--muted); font-size: 13px; margin: 2px 0 14px; }
-.board.main { border-top: 3px solid var(--tomato); }
-.board.pool { border-top: 3px solid var(--basil); }
-table { width: 100%; border-collapse: collapse; }
-td { padding: 9px 0; border-bottom: 1px solid var(--line); }
-tr:last-child td { border-bottom: 0; }
-td.g { text-align: right; font: 500 18px var(--mono); font-variant-numeric: tabular-nums; }
-td.p { text-align: right; color: var(--muted); font: 500 12px var(--mono); width: 64px; }
-tr.sum td { border-top: 2px solid var(--line); border-bottom: 0; color: var(--muted); font-size: 13px; }
-tr.sum td.g { font-size: 14px; color: var(--muted); }
-
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
-.stat { padding: 14px 16px; border-left: 2px solid var(--line); }
-.stat b { display: block; font: 500 22px var(--mono); }
-.stat span { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-
-.note { background: var(--basil-soft); border-radius: 12px; padding: 16px 20px; max-width: none; }
-.note p { margin: 0; max-width: 70ch; }
-.note p + p { margin-top: 8px; }
-.reset { justify-self: start; border: 0; background: none; color: var(--basil); font: 600 14px var(--body); cursor: pointer; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
-
-footer.about { border-top: 1px solid var(--line); padding-top: 20px; color: var(--muted); font-size: 13px; display: grid; gap: 12px; }
-footer.about h2 { font: 600 12px var(--body); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); margin: 0 0 4px; }
-footer.about p { margin: 0; max-width: 70ch; }
-footer.about p + p { margin-top: 6px; }
-footer.about a { color: var(--basil); }
+.hero { padding-top: 12px; display: grid; gap: 8px; }
+.hero h1 { font-size: clamp(40px, 10vw, 72px); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { display: grid; gap: 6px; align-content: start; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--basil); transform: translateY(-2px); }
+.card h2 { font-family: var(--display); font-weight: 400; font-size: 26px; margin: 0; }
+.card p { margin: 0; color: var(--muted); }
+.card .go { margin-top: 8px; color: var(--basil); font-weight: 600; }
+.card.calc { border-top: 3px solid var(--basil); }
+.card.steps { border-top: 3px solid var(--tomato); }
+.quick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; color: var(--muted); }
+.quick a { font: 500 14px var(--mono); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; text-decoration: none; background: var(--surface); }
+.quick a:hover { border-color: var(--basil); }
+.section-title { font-family: var(--display); font-weight: 400; font-size: 26px; margin: 0 0 12px; }
+.timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.day { border-left: 3px solid var(--basil); padding: 4px 0 4px 16px; }
+.day.bake { border-color: var(--tomato); }
+.day h3 { margin: 0; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.day ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.day li { display: flex; justify-content: space-between; gap: 12px; }
+.day li span:last-child { font: 500 14px var(--mono); color: var(--muted); white-space: nowrap; }
+.base { width: 100%; max-width: 520px; border-collapse: collapse; }
+.base td { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.base td.g { text-align: right; font: 500 15px var(--mono); }
+.base tr.h td { padding-top: 16px; font-weight: 600; border-bottom: 2px solid var(--line); }
+.base tr.h:first-child td { padding-top: 0; }
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
 </style>
 </head>
 <body>
-
 <div class="wrap">
-  <header>
-    <h1>Pizzadeig-kalkulator</h1>
-    <p class="lede">Napolitansk deig med poolish. Hele poolishen brukes alltid, så hydreringen bestemmer hvor stor den blir.</p>
+  <nav class="site-nav" aria-label="Hovedmeny"><a class="brand" href="index.html"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#e8c58a"/><circle cx="16" cy="16" r="10.5" fill="#c23b2a"/><circle cx="12" cy="13" r="2.2" fill="#f6f1e4"/><circle cx="20" cy="18" r="2.2" fill="#f6f1e4"/><circle cx="14" cy="21" r="1.6" fill="#2f6b45"/></svg>Pizzadeig</a><ul><li><a href="index.html" aria-current="page">Forside</a></li><li><a href="kalkulator.html">Kalkulator</a></li><li><a href="fremgangsmate.html">Fremgangsmåte</a></li></ul></nav>
+  <header class="hero">
+    <h1>Pizzadeig</h1>
+    <p class="lede">Napolitansk pizza med poolish, slik jeg lager den hjemme. Regn ut mengdene for så mange pizzaer du vil, og følg oppskriften steg for steg.</p>
   </header>
 
-  <section class="controls" aria-label="Innstillinger">
-    <div class="ctl">
-      <label for="n">Antall pizzaer</label>
-      <div class="stepper">
-        <button type="button" id="minus" aria-label="Færre pizzaer">−</button>
-        <input id="n" type="number" min="1" max="60" value="3" inputmode="numeric">
-        <button type="button" id="plus" aria-label="Flere pizzaer">+</button>
-      </div>
+  <section class="cards">
+    <a class="card calc" href="kalkulator.html">
+      <h2>Kalkulator</h2>
+      <p>Velg antall pizzaer og vekt per deigball, og få mengdene til poolish og hoveddeig.</p>
+      <span class="go">Regn ut mengder →</span>
+    </a>
+    <a class="card steps" href="fremgangsmate.html">
+      <h2>Fremgangsmåte</h2>
+      <p>Fra poolish dagen før til ferdige deigballer, med tider for hvert steg.</p>
+      <span class="go">Se fremgangsmåten →</span>
+    </a>
+  </section>
+
+  <div class="quick"><span>Rett til kalkulatoren for</span>
+    <a href="kalkulator.html?n=3">3 pizzaer</a><a href="kalkulator.html?n=4">4</a><a href="kalkulator.html?n=6">6</a><a href="kalkulator.html?n=8">8</a><a href="kalkulator.html?n=12">12</a>
+  </div>
+
+  <section>
+    <h2 class="section-title">Tidsplan</h2>
+    <div class="timeline">
+      <div class="day"><h3>Dagen før</h3><ul>
+        <li><span>Bland poolish</span><span>5 min</span></li>
+        <li><span>På benken</span><span>1 t</span></li>
+        <li><span>I kjøleskapet</span><span>12 til 24 t</span></li>
+      </ul></div>
+      <div class="day bake"><h3>Bakedagen</h3><ul>
+        <li><span>Elt og brett</span><span>15 til 20 min</span></li>
+        <li><span>Hvile og heving</span><span>cirka 1 t 10 min</span></li>
+        <li><span>Baller hever</span><span>cirka 1 t</span></li>
+      </ul></div>
     </div>
-    <div class="ctl">
-      <label for="w">Vekt per deigball</label>
-      <div class="field"><input id="w" type="number" min="150" max="400" step="1" value="253" inputmode="numeric"><span>g</span></div>
-    </div>
-    <div class="ctl">
-      <div class="hyd-row"><label for="h">Hydrering</label><span class="hyd-val num" id="hv">69 %</span></div>
-      <input id="h" type="range" min="58" max="80" step="0.5" value="69">
-      <div class="presets" id="presets">
-        <button type="button" data-v="62">62 %</button>
-        <button type="button" data-v="65">65 %</button>
-        <button type="button" data-v="69">69 % din</button>
-        <button type="button" data-v="72">72 %</button>
-        <button type="button" data-v="75">75 %</button>
-      </div>
-    </div>
   </section>
 
-  <section class="boards">
-    <article class="board pool">
-      <h2>Poolish</h2>
-      <p class="when">Blandes først og får hevet</p>
-      <table>
-        <tr><td>Vann</td><td class="g" id="pw"></td></tr>
-        <tr><td>Mel</td><td class="g" id="pf"></td></tr>
-        <tr><td>Gjær</td><td class="g" id="py"></td></tr>
-        <tr><td>Honning</td><td class="g" id="ph"></td></tr>
-        <tr class="sum"><td>Poolish totalt</td><td class="g" id="pt"></td></tr>
-      </table>
-    </article>
-    <article class="board main">
-      <h2>Hoveddeig</h2>
-      <p class="when">Når poolishen er klar</p>
-      <table>
-        <tr><td>Hele poolishen</td><td class="g" id="mp"></td></tr>
-        <tr><td>Mel</td><td class="g" id="mf"></td></tr>
-        <tr><td>Salt</td><td class="g" id="ms"></td></tr>
-        <tr class="sum"><td>Deig totalt</td><td class="g" id="mt"></td></tr>
-      </table>
-    </article>
+  <section>
+    <h2 class="section-title">Grunnoppskrift for 3 pizzaer</h2>
+    <table class="base">
+      <tr class="h"><td>Poolish</td><td></td></tr>
+      <tr><td>Vann</td><td class="g">300 g</td></tr>
+      <tr><td>Mel</td><td class="g">300 g</td></tr>
+      <tr><td>Gjær</td><td class="g">5 g</td></tr>
+      <tr><td>Honning</td><td class="g">5 g</td></tr>
+      <tr class="h"><td>Hoveddeig</td><td></td></tr>
+      <tr><td>Hele poolishen</td><td class="g">610 g</td></tr>
+      <tr><td>Mel</td><td class="g">135 g</td></tr>
+      <tr><td>Salt</td><td class="g">15 g</td></tr>
+    </table>
   </section>
-
-  <section class="stats" aria-label="Nøkkeltall">
-    <div class="stat"><b id="sF"></b><span>Mel totalt</span></div>
-    <div class="stat"><b id="sP"></b><span>Mel i poolish</span></div>
-    <div class="stat"><b id="sS"></b><span>Salt av mel</span></div>
-    <div class="stat"><b id="sY"></b><span>Gjær av mel</span></div>
-  </section>
-
-  <section class="note">
-    <p><strong>Slik regnes det.</strong> Oppskriften din har 300 g vann på 435 g mel, altså 69 % hydrering. Fordi poolishen er like mye vann som mel og alt vannet ligger i den, er andelen mel i poolishen alltid lik hydreringen. Øker du hydreringen, blir poolishen større og hoveddeigen får mindre mel.</p>
-    <p>Salt, gjær og honning følger totalt mel (3,45 %, 1,15 % og 1,15 %), slik de gjør i originalen.</p>
-  </section>
-
-  <button type="button" class="reset" id="reset">Tilbake til din oppskrift</button>
 
   <footer class="about">
     <div>
@@ -163,61 +101,11 @@ footer.about a { color: var(--basil); }
     </div>
     <div>
       <h2>Ansvar og lisens</h2>
-      <p>Laget for privat bruk og delt slik den er. Tallene er veiledende, og du bruker kalkulatoren på eget ansvar.</p>
+      <p>Laget for privat bruk og delt slik den er. Tallene er veiledende, og du bruker siden på eget ansvar.</p>
       <p>Koden er åpen under <a href="https://github.com/PederMyhrer/pizzadeig/blob/main/LICENSE" rel="noopener">MIT-lisensen</a>. Skriftene Young Serif, Figtree og JetBrains Mono er lisensiert under SIL Open Font License 1.1 og ligger med lisenstekst i <a href="https://github.com/PederMyhrer/pizzadeig/tree/main/fonts" rel="noopener">fonts-mappen</a>.</p>
     </div>
   </footer>
 </div>
-
-<script>
-const SALT = 15/435, YEAST = 5/435, HONEY = 5/435;
-const BASE_W = 760/3;
-const $ = id => document.getElementById(id);
-let ballW = BASE_W;
-
-const fmt = g => (g < 20 ? g.toFixed(1).replace('.', ',') : Math.round(g)) + ' g';
-const pct = v => (v*100).toFixed(v < 0.1 ? 2 : 0).replace('.', ',') + ' %';
-
-function calc() {
-  const n = Math.max(1, Math.min(60, parseInt($('n').value) || 1));
-  const h = parseFloat($('h').value) / 100;
-  const total = n * ballW;
-  const F = total / (1 + h + SALT + YEAST + HONEY);
-  const water = h * F;
-  const poolFlour = water;            // 1:1 poolish, alt vann i poolishen
-  const mainFlour = F - poolFlour;
-  const yeast = YEAST * F, honey = HONEY * F, salt = SALT * F;
-  const poolTotal = water + poolFlour + yeast + honey;
-
-  $('pw').textContent = fmt(water);
-  $('pf').textContent = fmt(poolFlour);
-  $('py').textContent = fmt(yeast);
-  $('ph').textContent = fmt(honey);
-  $('pt').textContent = fmt(poolTotal);
-  $('mp').textContent = fmt(poolTotal);
-  $('mf').textContent = fmt(mainFlour);
-  $('ms').textContent = fmt(salt);
-  $('mt').textContent = fmt(poolTotal + mainFlour + salt);
-
-  $('sF').textContent = fmt(F);
-  $('sP').textContent = pct(h);
-  $('sS').textContent = pct(SALT);
-  $('sY').textContent = pct(YEAST);
-  $('hv').textContent = String(+$('h').value).replace('.', ',') + ' %';
-  document.querySelectorAll('#presets button').forEach(b =>
-    b.classList.toggle('on', +b.dataset.v === +$('h').value));
-}
-
-$('minus').onclick = () => { $('n').value = Math.max(1, (+$('n').value || 1) - 1); calc(); };
-$('plus').onclick = () => { $('n').value = Math.min(60, (+$('n').value || 0) + 1); calc(); };
-$('n').oninput = calc;
-$('w').oninput = () => { const v = parseFloat($('w').value); if (v > 0) { ballW = v; calc(); } };
-$('h').oninput = calc;
-document.querySelectorAll('#presets button').forEach(b =>
-  b.onclick = () => { $('h').value = b.dataset.v; calc(); });
-$('reset').onclick = () => { $('n').value = 3; $('h').value = 69; $('w').value = 253; ballW = BASE_W; calc(); };
-calc();
-</script>
 
 </body>
 </html>
